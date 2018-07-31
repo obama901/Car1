@@ -8,29 +8,38 @@
 
 #import "ViewController.h"
 
+
+//屏幕尺寸
+#define MAIN_SIZE ([ [ UIScreen mainScreen ] bounds ].size)
+//320*480
+
+//#define CAR_LEFT_OFFSET ((int)MAIN_SIZE.width)%5
+#define CAR_LEFT_OFFSET 50
+#define CAR_SIZE (MAIN_SIZE.width-CAR_LEFT_OFFSET)/5
 @interface ViewController ()
 
 @end
 
 @implementation ViewController
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     speed = 0.02;
     
     UIView *page1 = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    UIImageView *bkg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"road.jpg"]];
-    bkg.frame = CGRectMake(0, 0, 320, 480);
+    UIImageView *bkg = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"road"]];
+    bkg.frame = CGRectMake(0, 0, MAIN_SIZE.width, MAIN_SIZE.height);
     [page1 addSubview:bkg];
     [self.view addSubview:page1];
     cy = 20;
     
-    zebra = [[UIImageView alloc] initWithFrame:CGRectMake(140, 0, 40, 300)];
+    zebra = [[UIImageView alloc] initWithFrame:CGRectMake((MAIN_SIZE.width-40)/2, 0, 40, 300)];
     zebra.backgroundColor = [UIColor whiteColor];
     [page1 addSubview:zebra];
     
     start = [UIButton buttonWithType:UIButtonTypeCustom];
-    start.frame = CGRectMake(120, 230, 80, 40);
+    start.frame = CGRectMake((MAIN_SIZE.width-80)/2, MAIN_SIZE.height/2-10, 80, 40);
     [start setBackgroundColor:[UIColor lightGrayColor]];
     [start setTitle:@"开始" forState:UIControlStateNormal];
     start.clipsToBounds = YES;
@@ -40,57 +49,59 @@
     page3 = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     [page1 addSubview:page3];
     
+//    float carLeftOffset = ((int)MAIN_SIZE.width)%5;
+//    float carSize = (MAIN_SIZE.width-carLeftOffset)/5;
     car1 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"car1"]];
-    car1.frame = CGRectMake(20, cy, 60, 60);
+    car1.frame = CGRectMake(CAR_LEFT_OFFSET, cy, CAR_SIZE, CAR_SIZE);
     [page3 addSubview:car1];
     
     car2 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"car2"]];
-    car2.frame = CGRectMake(80, cy, 60, 60);
+    car2.frame = CGRectMake(CAR_LEFT_OFFSET+CAR_SIZE, cy, CAR_SIZE, CAR_SIZE);
     [page3 addSubview:car2];
     
     car3 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"car3"]];
-    car3.frame = CGRectMake(140, cy, 60, 60);
+    car3.frame = CGRectMake(CAR_LEFT_OFFSET+(CAR_SIZE)*2, cy, CAR_SIZE, CAR_SIZE);
     [page3 addSubview:car3];
     
     car4 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"car4"]];
-    car4.frame = CGRectMake(200, cy, 60, 60);
+    car4.frame = CGRectMake(CAR_LEFT_OFFSET+(CAR_SIZE)*3, cy, CAR_SIZE, CAR_SIZE);
     [page3 addSubview:car4];
     
     car5 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"car5"]];
-    car5.frame = CGRectMake(260, cy, 60, 60);
+    car5.frame = CGRectMake(CAR_LEFT_OFFSET+(CAR_SIZE)*4, cy, CAR_SIZE, CAR_SIZE);
     [page3 addSubview:car5];
     [page3 addSubview:start];
     
-    UILabel *fenShu1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 60, 20, 20)];
+    UILabel *fenShu1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 60, CAR_LEFT_OFFSET, 20)];
     fenShu1.text = @"分";
     fenShu1.textColor = [UIColor whiteColor];
     [page3 addSubview:fenShu1];
     
-    UILabel *fenShu2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 80, 20, 20)];
+    UILabel *fenShu2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 80, CAR_LEFT_OFFSET, 20)];
     fenShu2.text = @"数";
     fenShu2.textColor = [UIColor whiteColor];
     [page3 addSubview:fenShu2];
     
-    fenShu3 = [[UILabel alloc] initWithFrame:CGRectMake(0, 100, 40, 20)];
+    fenShu3 = [[UILabel alloc] initWithFrame:CGRectMake(0, 100, CAR_LEFT_OFFSET+20, 20)];
     
     fenShu3.textColor = [UIColor whiteColor];
     [page3 addSubview:fenShu3];
     
     UIButton *toLeft = [UIButton buttonWithType:UIButtonTypeCustom];
-    toLeft.frame = CGRectMake(0, 440, 160, 40);
+    toLeft.frame = CGRectMake(0, MAIN_SIZE.height-40, MAIN_SIZE.width/2, 40);
     [toLeft setBackgroundColor:[UIColor lightTextColor]];
     [toLeft setBackgroundImage:[UIImage imageNamed:@"toLeft"] forState:UIControlStateNormal];
     [toLeft addTarget:self action:@selector(toLeft) forControlEvents:UIControlEventTouchUpInside];
     [page3 addSubview:toLeft];
     
     UIButton *toRight = [UIButton buttonWithType:UIButtonTypeCustom];
-    toRight.frame = CGRectMake(160, 440, 160, 40);
+    toRight.frame = CGRectMake(MAIN_SIZE.width/2, MAIN_SIZE.height-40, MAIN_SIZE.width/2, 40);
     [toRight setBackgroundColor:[UIColor lightTextColor]];
     [toRight setBackgroundImage:[UIImage imageNamed:@"toRight"] forState:UIControlStateNormal];
     [toRight addTarget:self action:@selector(toRight) forControlEvents:UIControlEventTouchUpInside];
     [page3 addSubview:toRight];
     
-    ren = [[UIImageView alloc] initWithFrame:CGRectMake(140, 380, 60, 60)];
+    ren = [[UIImageView alloc] initWithFrame:CGRectMake(CAR_LEFT_OFFSET+(CAR_SIZE)*2, MAIN_SIZE.height-40-CAR_SIZE, CAR_SIZE, CAR_SIZE)];
     [ren setImage:[UIImage imageNamed:@"jy8"]];
     [page3 addSubview:ren];
     x = ren.frame.origin.x;
@@ -100,14 +111,18 @@
     page2 = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     page2.backgroundColor = [UIColor clearColor];
     
-    UILabel *gameOver = [[UILabel alloc] initWithFrame:CGRectMake(70, 140, 220, 60)];
+//    UILabel *gameOver = [[UILabel alloc] initWithFrame:CGRectMake(70, 140, 220, 60)];
+    UILabel *gameOver = [[UILabel alloc] init];
+    gameOver.bounds = CGRectMake(0, 0, 220, 60);
+    gameOver.center = CGPointMake(MAIN_SIZE.width/2, MAIN_SIZE.height/2-100);
+    gameOver.textAlignment = NSTextAlignmentCenter;
     gameOver.text = @"游戏结束";
     gameOver.textColor = [UIColor redColor];
     gameOver.font = [UIFont systemFontOfSize:45];
     [page2 addSubview:gameOver];
     
     UIButton *reStart = [UIButton buttonWithType:UIButtonTypeCustom];
-    reStart.frame = CGRectMake(120, 230, 80, 40);
+    reStart.frame = CGRectMake((MAIN_SIZE.width-80)/2, MAIN_SIZE.height/2-10, 80, 40);
     [reStart setBackgroundColor:[UIColor lightGrayColor]];
     [reStart setTitle:@"重新开始" forState:UIControlStateNormal];
     reStart.clipsToBounds = YES;
@@ -118,48 +133,48 @@
 - (void)toLeft
 {
     y = car1.frame.origin.y;
-    if (x == 260 && y < 340) {
-        ren.frame = CGRectMake(x - 60, 380, 60, 60);
-        x = 200;
-    } else if (x == 200 && y < 340)
+    if (x == (CAR_LEFT_OFFSET+(CAR_SIZE)*4) && y < MAIN_SIZE.height-40-(CAR_SIZE)*5/3) {
+        ren.frame = CGRectMake(x - CAR_SIZE, MAIN_SIZE.height-40-CAR_SIZE, CAR_SIZE, CAR_SIZE);
+        x = CAR_LEFT_OFFSET+(CAR_SIZE)*3;
+    } else if (x == CAR_LEFT_OFFSET+(CAR_SIZE)*3 && y < MAIN_SIZE.height-40-(CAR_SIZE)*5/3)
     {
-        ren.frame = CGRectMake(x - 60, 380, 60, 60);
-        x = 140;
-    }else if (x == 140 && y < 340)
+        ren.frame = CGRectMake(x - CAR_SIZE, MAIN_SIZE.height-40-CAR_SIZE, CAR_SIZE, CAR_SIZE);
+        x = CAR_LEFT_OFFSET+(CAR_SIZE)*2;
+    }else if (x == CAR_LEFT_OFFSET+(CAR_SIZE)*2 && y < MAIN_SIZE.height-40-(CAR_SIZE)*5/3)
     {
-        ren.frame = CGRectMake(x - 60, 380, 60, 60);
-        x = 80;
-    }else if (x == 80 && y < 340)
+        ren.frame = CGRectMake(x - CAR_SIZE, MAIN_SIZE.height-40-CAR_SIZE, CAR_SIZE, CAR_SIZE);
+        x = CAR_LEFT_OFFSET+CAR_SIZE;
+    }else if (x == CAR_LEFT_OFFSET+CAR_SIZE && y < MAIN_SIZE.height-40-(CAR_SIZE)*5/3)
     {
-        ren.frame = CGRectMake(x - 60, 380, 60, 60);
-        x = 20;
-    }else if (x == 20 && y < 340)
+        ren.frame = CGRectMake(x - CAR_SIZE, MAIN_SIZE.height-40-CAR_SIZE, CAR_SIZE, CAR_SIZE);
+        x = CAR_LEFT_OFFSET;
+    }else if (x == CAR_LEFT_OFFSET && y < MAIN_SIZE.height-40-(CAR_SIZE)*5/3)
     {
-        ren.frame = CGRectMake(x, 380, 60, 60);
+        ren.frame = CGRectMake(x, MAIN_SIZE.height-40-CAR_SIZE, CAR_SIZE, CAR_SIZE);
     }
     
 }
 - (void)toRight
 {
     y = car1.frame.origin.y;
-    if (x == 20 && y < 340) {
-        ren.frame = CGRectMake(x + 60, 380, 60, 60);
-        x = 80;
-    } else if(x == 80 && y < 340)
+    if (x == CAR_LEFT_OFFSET && y < MAIN_SIZE.height-40-(CAR_SIZE)*5/3) {
+        ren.frame = CGRectMake(x + CAR_SIZE, MAIN_SIZE.height-40-CAR_SIZE, CAR_SIZE, CAR_SIZE);
+        x = CAR_LEFT_OFFSET+CAR_SIZE;
+    } else if(x == CAR_LEFT_OFFSET+CAR_SIZE && y < MAIN_SIZE.height-40-(CAR_SIZE)*5/3)
     {
-        ren.frame = CGRectMake(x + 60, 380, 60, 60);
-        x = 140;
-    }else if (x == 140 && y < 340)
+        ren.frame = CGRectMake(x + CAR_SIZE, MAIN_SIZE.height-40-CAR_SIZE, CAR_SIZE, CAR_SIZE);
+        x = CAR_LEFT_OFFSET+(CAR_SIZE)*2;
+    }else if (x == CAR_LEFT_OFFSET+(CAR_SIZE)*2 && y < MAIN_SIZE.height-40-(CAR_SIZE)*5/3)
     {
-        ren.frame = CGRectMake(x + 60, 380, 60, 60);
-        x = 200;
-    }else if (x == 200 && y < 340)
+        ren.frame = CGRectMake(x + CAR_SIZE, MAIN_SIZE.height-40-CAR_SIZE, CAR_SIZE, CAR_SIZE);
+        x = CAR_LEFT_OFFSET+(CAR_SIZE)*3;
+    }else if (x == CAR_LEFT_OFFSET+(CAR_SIZE)*3 && y < MAIN_SIZE.height-40-(CAR_SIZE)*5/3)
     {
-        ren.frame = CGRectMake(x + 60, 380, 60, 60);
-        x = 260;
-    }else if (x == 260 && y < 340)
+        ren.frame = CGRectMake(x + CAR_SIZE, MAIN_SIZE.height-40-CAR_SIZE, CAR_SIZE, CAR_SIZE);
+        x = CAR_LEFT_OFFSET+(CAR_SIZE)*4;
+    }else if (x == CAR_LEFT_OFFSET+(CAR_SIZE)*4 && y < MAIN_SIZE.height-40-(CAR_SIZE)*5/3)
     {
-        ren.frame = CGRectMake(x, 380, 60, 60);
+        ren.frame = CGRectMake(x, MAIN_SIZE.height-40-CAR_SIZE, CAR_SIZE, CAR_SIZE);
     }
 }
 - (void)reStart
@@ -176,8 +191,8 @@
     
     //使小汽车向下降
     cy = cy + 1;
-    if (cy > 380) {
-        cy = 20;
+    if (cy > MAIN_SIZE.height-40-CAR_SIZE) {
+        cy = CAR_LEFT_OFFSET;
         if (a == 0) {
             [page3 addSubview:car1];
         } else if (a == 1)
@@ -214,11 +229,11 @@
         fenShu3.text = str1;
         b = b + 1;
     }
-    car1.frame = CGRectMake(20, cy, 60, 60);
-    car2.frame = CGRectMake(80, cy, 60, 60);
-    car3.frame = CGRectMake(140, cy, 60, 60);
-    car4.frame = CGRectMake(200, cy, 60, 60);
-    car5.frame = CGRectMake(260, cy, 60, 60);
+    car1.frame = CGRectMake(CAR_LEFT_OFFSET, cy, CAR_SIZE, CAR_SIZE);
+    car2.frame = CGRectMake(CAR_LEFT_OFFSET+CAR_SIZE, cy, CAR_SIZE, CAR_SIZE);
+    car3.frame = CGRectMake(CAR_LEFT_OFFSET+(CAR_SIZE)*2, cy, CAR_SIZE, CAR_SIZE);
+    car4.frame = CGRectMake(CAR_LEFT_OFFSET+(CAR_SIZE)*3, cy, CAR_SIZE, CAR_SIZE);
+    car5.frame = CGRectMake(CAR_LEFT_OFFSET+(CAR_SIZE)*4, cy, CAR_SIZE, CAR_SIZE);
     [self deleteCar];
     [self crashCar];
     
@@ -233,8 +248,8 @@
     [UIView setAnimationRepeatCount:1];
     [UIView setAnimationDuration:5];
     [UIView setAnimationCurve:UIViewAnimationCurveLinear];
-    start.frame = CGRectMake(120, 480, 80, 40);
-    zebra.frame = CGRectMake(140, -300, 40, 300);
+    start.frame = CGRectMake((MAIN_SIZE.width-80)/2, MAIN_SIZE.height, 80, 40);
+    zebra.frame = CGRectMake((MAIN_SIZE.width-40)/2, -300, 40, 300);
     
     timer = [NSTimer scheduledTimerWithTimeInterval:speed target:self selector:@selector(runCar) userInfo:nil repeats:YES];
     [UIView setAnimationDelegate:self];
@@ -247,7 +262,9 @@
 }
 - (void)crashCar
 {
-    if (cy == 380 && x != (3*a+1)*20) {
+//    if (cy == MAIN_SIZE.height-40-CAR_SIZE && x != (3*a+1)*20)
+    if (cy == MAIN_SIZE.height-40-CAR_SIZE && x != CAR_LEFT_OFFSET+(CAR_SIZE)*a)
+    {
         [timer invalidate];
         [self.view addSubview:page2];
         speed = 0.02;
@@ -278,13 +295,13 @@
 }
 - (void)begin2
 {
-    zebra.frame = CGRectMake(140, 480, 40, 300);
+    zebra.frame = CGRectMake((MAIN_SIZE.width-40)/2, MAIN_SIZE.height, 40, 300);
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationRepeatCount:1];
     [UIView setAnimationDuration:6];
     [UIView setAnimationCurve:UIViewAnimationCurveLinear];
     
-    zebra.frame = CGRectMake(140, 0, 40, 300);
+    zebra.frame = CGRectMake((MAIN_SIZE.width-40)/2, 0, 40, 300);
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDidStopSelector:@selector(begin3)];
     [UIView commitAnimations];
@@ -296,7 +313,7 @@
     [UIView setAnimationDuration:5];
     [UIView setAnimationCurve:UIViewAnimationCurveLinear];
     
-    zebra.frame = CGRectMake(140, -300, 40, 300);
+    zebra.frame = CGRectMake((MAIN_SIZE.width-40)/2, -300, 40, 300);
     
     
     [UIView setAnimationDelegate:self];

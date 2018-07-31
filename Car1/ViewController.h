@@ -10,10 +10,10 @@
 
 @interface ViewController : UIViewController
 {
-    UIImageView *zebra;
-    UIButton *start;
-    UIImageView *ren;
-    int x;
+    UIImageView *zebra; //斑马线
+    UIButton *start;  //开始按钮
+    UIImageView *ren;   //小人
+    int x;      //
     int cy;
     int a;
     int y;//小汽车的y坐标
